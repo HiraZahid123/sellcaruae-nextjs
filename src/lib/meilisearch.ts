@@ -5,15 +5,24 @@ declare global {
   var _meili: Meilisearch | undefined;
 }
 
-const client =
-  globalThis._meili ??
-  new Meilisearch({
-    host: process.env.MEILISEARCH_HOST!,
-    apiKey: process.env.MEILISEARCH_API_KEY,
-  });
+function getClient() {
+  if (!globalThis._meili) {
+    globalThis._meili = new Meilisearch({
+      host: process.env.MEILISEARCH_HOST!,
+      apiKey: process.env.MEILISEARCH_API_KEY,
+    });
+  }
+  return globalThis._meili;
+}
 
-if (process.env.NODE_ENV !== "production") globalThis._meili = client;
+export const variantsIndex = new Proxy({} as ReturnType<Meilisearch["index"]>, {
+  get(_target, prop) {
+    return (getClient().index("variants") as never)[prop as string];
+  },
+});
 
-export const variantsIndex = client.index("variants");
-
-export default client;
+export default new Proxy({} as Meilisearch, {
+  get(_target, prop) {
+    return (getClient() as never)[prop as string];
+  },
+});

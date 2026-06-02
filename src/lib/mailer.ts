@@ -17,12 +17,18 @@ function createTransporter() {
   });
 }
 
-const mailer: nodemailer.Transporter =
-  globalThis._mailer ?? createTransporter();
+function getMailer() {
+  if (!globalThis._mailer) {
+    globalThis._mailer = createTransporter();
+  }
+  return globalThis._mailer;
+}
 
-if (process.env.NODE_ENV !== "production") globalThis._mailer = mailer;
-
-export default mailer;
+export default new Proxy({} as nodemailer.Transporter, {
+  get(_target, prop) {
+    return (getMailer() as never)[prop as string];
+  },
+});
 
 export function bookingConfirmationHtml(data: {
   name?: string;
