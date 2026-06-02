@@ -53,18 +53,22 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ───────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-white">
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:block">
-          <Image src="/assets/images/hero_bg.webp" alt="" fill className="object-cover object-left" priority />
-        </div>
-        <div className="conta-def relative z-10 py-16 w-full">
-          <div className="max-w-[600px]">
-            <span className="block w-[50px] h-[3px] bg-[#1EAD5E] mb-6"
-              style={{ boxShadow: "0 0 10px #1EAD5E80" }} />
-            <h1 className="def-h text-[#1D2126] mb-2">The best service for</h1>
-            <h2 className="font-['Geometria'] text-[clamp(22px,3vw,35px)] font-normal text-[#1D2126] mb-8">
-              evaluating and selling your car
-            </h2>
+      <section
+        className="relative h-screen flex items-center justify-center flex-col"
+        style={{
+          backgroundImage: "url('/assets/images/hero_bg.webp')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right center",
+          backgroundSize: "cover",
+        }}>
+        <div className="conta-def w-full">
+          <span className="block w-[50px] h-[3px] bg-[#1EAD5E] mb-6"
+            style={{ boxShadow: "0 0 10px #1EAD5E80" }} />
+          <h1 className="def-h text-[#1D2126] mb-2">The best service for</h1>
+          <h2 className="font-['Geometria'] text-[clamp(20px,2.8vw,32px)] font-normal text-[#1D2126] mb-8">
+            evaluating and selling your car
+          </h2>
+          <div className="max-w-[700px]">
             <CarValuationWidget variant="hero" />
           </div>
         </div>

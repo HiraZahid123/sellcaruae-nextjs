@@ -17,7 +17,7 @@ export default function Header() {
     <>
       <header className="fixed top-0 left-0 right-0 z-[999] bg-white"
         style={{ boxShadow: "drop-shadow(0px 5px 6px rgba(0,0,0,.161))", filter: "drop-shadow(0px 5px 6px rgba(0,0,0,.161))" }}>
-        <div className="conta-wide flex items-center justify-between py-[13px]">
+        <div className="conta-wide flex items-center justify-between" style={{ paddingTop: "28px", paddingBottom: "28px" }}>
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image src="/assets/images/logo.webp" alt="SellCarUAE" width={257} height={38}
@@ -85,7 +85,7 @@ export default function Header() {
       </aside>
 
       {/* Spacer for fixed header */}
-      <div className="h-[64px] lg:h-[72px]" />
+      <div style={{ height: "96px" }} />
     </>
   );
 }
