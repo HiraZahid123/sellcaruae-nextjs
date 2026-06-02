@@ -19,8 +19,17 @@ function createPool() {
   });
 }
 
-// Reuse pool across hot-reloads in dev
-const pool = globalThis._mysqlPool ?? createPool();
-if (process.env.NODE_ENV !== "production") globalThis._mysqlPool = pool;
+// Lazy getter — pool is created on first use, not at module evaluation time.
+// This prevents build-time crashes when DATABASE_URL is not set.
+function getPool() {
+  if (!globalThis._mysqlPool) {
+    globalThis._mysqlPool = createPool();
+  }
+  return globalThis._mysqlPool;
+}
 
-export default pool;
+export default new Proxy({} as mysql.Pool, {
+  get(_target, prop) {
+    return (getPool() as never)[prop as keyof mysql.Pool];
+  },
+});
